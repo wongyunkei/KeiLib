@@ -40,9 +40,6 @@
 <macro>
 <name>STM32F407xx</name><value>STM32F407xx</value>
 </macro>
-<macro>
-<name>USE_STM324xG_EVAL</name><value>USE_STM324xG_EVAL</value>
-</macro>
 
 </language>
 <language name="C Source File">
