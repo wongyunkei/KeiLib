@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cdtprojectproperties>
+<section name="org.eclipse.cdt.internal.ui.wizards.settingswizards.IncludePaths">
+<language name="Assembly Source File">
+<includepath workspace_path="true">/${ProjName}/Drivers/CMSIS/Device/ST/STM32F4xx/Include</includepath>
+<includepath workspace_path="true">/${ProjName}/Drivers/CMSIS/Include</includepath>
+<includepath workspace_path="true">/${ProjName}/Drivers/STM32F4xx_HAL_Driver/Inc</includepath>
+<includepath workspace_path="true">/${ProjName}/Inc</includepath>
+<includepath workspace_path="true">/${ProjName}/IAP/Inc</includepath>
+<includepath workspace_path="true">/${ProjName}/Inc/User</includepath>
+
+</language>
+<language name="C Source File">
+<includepath workspace_path="true">/${ProjName}/Drivers/CMSIS/Device/ST/STM32F4xx/Include</includepath>
+<includepath workspace_path="true">/${ProjName}/Drivers/CMSIS/Include</includepath>
+<includepath workspace_path="true">/${ProjName}/Drivers/STM32F4xx_HAL_Driver/Inc</includepath>
+<includepath workspace_path="true">/${ProjName}/Inc</includepath>
+<includepath workspace_path="true">/${ProjName}/IAP/Inc</includepath>
+<includepath workspace_path="true">/${ProjName}/Inc/User</includepath>
+
+</language>
+<language name="C++ Source File">
+<includepath workspace_path="true">/${ProjName}/Drivers/CMSIS/Device/ST/STM32F4xx/Include</includepath>
+<includepath workspace_path="true">/${ProjName}/Drivers/CMSIS/Include</includepath>
+<includepath workspace_path="true">/${ProjName}/Drivers/STM32F4xx_HAL_Driver/Inc</includepath>
+<includepath workspace_path="true">/${ProjName}/Inc</includepath>
+<includepath workspace_path="true">/${ProjName}/IAP/Inc</includepath>
+<includepath workspace_path="true">/${ProjName}/Inc/User</includepath>
+
+</language>
+<language name="Object File">
+
+</language>
+</section>
+<section name="org.eclipse.cdt.internal.ui.wizards.settingswizards.Macros">
+<language name="Assembly Source File">
+<macro>
+<name>USE_HAL_DRIVER</name><value>USE_HAL_DRIVER</value>
+</macro>
+<macro>
+<name>STM32F407xx</name><value>STM32F407xx</value>
+</macro>
+<macro>
+<name>USE_STM324xG_EVAL</name><value>USE_STM324xG_EVAL</value>
+</macro>
+
+</language>
+<language name="C Source File">
+<macro>
+<name>USE_HAL_DRIVER</name><value>USE_HAL_DRIVER</value>
+</macro>
+<macro>
+<name>STM32F407xx</name><value>STM32F407xx</value>
+</macro>
+
+</language>
+<language name="C++ Source File">
+<macro>
+<name>USE_HAL_DRIVER</name><value>USE_HAL_DRIVER</value>
+</macro>
+<macro>
+<name>STM32F407xx</name><value>STM32F407xx</value>
+</macro>
+
+</language>
+<language name="Object File">
+
+</language>
+</section>
+</cdtprojectproperties>
