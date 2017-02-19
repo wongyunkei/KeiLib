@@ -12,6 +12,10 @@ using namespace Utility;
 float buffer[10][10];
 float m[10][10][10];
 
+void AdditionalTools::printCount(int d){
+	printf("%d\r\n", d);
+}
+
 void AdditionalTools::setBuffer(int index, float* buf, int length){
 	for(int i = 0; i < length; i++){
 		buffer[index][i] = buf[i];

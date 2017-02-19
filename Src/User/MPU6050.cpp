@@ -12,8 +12,11 @@ using namespace Sensors;
 using namespace Math;
 
 MPU6050Configuration::MPU6050Configuration(Communication::I2C* i2c,
+											AccConf accConf, GyroConf gyroConf,
 											Vector3f AccPos, Vector3f AccNeg,
 											Vector3f OmegaScale, Vector3f OmegaOffset) : _i2c(i2c),
+													_accConf(accConf),
+													_gyroConf(gyroConf),
 													_AccPos(AccPos),
 													_AccNeg(AccNeg),
 													_OmegaScale(OmegaScale),
@@ -25,24 +28,13 @@ bool MPU6050::setI2CBypass(bool onState){
 		data = 0x02;
 	}
 	WaitUntilFlagChangedOrTimeoutReturn(!i2cx->Write(ADDRESS,RA_INT_PIN_CFG,data), 0.003);
-//	App::mApp->mTicks->setTimeout(3);
-//	while(!i2cx->Write(ADDRESS,RA_INT_PIN_CFG,data)){
-//		if(App::mApp->mTicks->Timeout()){
-//			return;
-//		}
-//	}
 	return true;
 }
 
 MPU6050::MPU6050(MPU6050Configuration* conf) : Conf(conf), i2cx(conf->_i2c), isValided(false){
 	for(int i = 0; i < 3; i++){
-//		RawAccScale[i] = 2.0f * Inertia::Acceleration::Gravity / (conf->_AccPos[i] - conf->_AccNeg[i]);
-//		RawAccOffset[i] = conf->_AccPos[i] * RawAccScale[i] - Inertia::Acceleration::Gravity;
-//		RawOmegaScale[i] = conf->_OmegaScale[i];
-//		RawOmegaOffset[i] = RawOmegaScale[i] * conf->_OmegaOffset[i];
-
-		RawAccScale[i] = 2.0f * 9.81 / (conf->_AccPos[i] - conf->_AccNeg[i]);
-		RawAccOffset[i] = conf->_AccPos[i] * RawAccScale[i] - 9.81;
+		RawAccScale[i] = 2.0f * Inertia::Acceleration::Gravity / (conf->_AccPos[i] - conf->_AccNeg[i]);
+		RawAccOffset[i] = conf->_AccPos[i] * RawAccScale[i] - Inertia::Acceleration::Gravity;
 		RawOmegaScale[i] = conf->_OmegaScale[i];
 		RawOmegaOffset[i] = RawOmegaScale[i] * conf->_OmegaOffset[i];
 	}
@@ -52,50 +44,49 @@ MPU6050::MPU6050(MPU6050Configuration* conf) : Conf(conf), i2cx(conf->_i2c), isV
 
 bool MPU6050::FastInitialization(){
 	WaitUntilFlagChangedOrTimeoutReturn(!i2cx->Write(ADDRESS,RA_PWR_MGMT_1,0x00),0.003);
-//	App::mApp->mTicks->setTimeout(3);
-//	while(!i2cx->Write(ADDRESS,RA_PWR_MGMT_1,0x00)){
-//		if(App::mApp->mTicks->Timeout()){
-//			return;
-//		}
-//	}
-
 	WaitUntilFlagChangedOrTimeoutReturn(!i2cx->Write(ADDRESS,RA_SMPLRT_DIV,0x07),0.003);
-//	App::mApp->mTicks->setTimeout(3);
-//	while(!i2cx->Write(ADDRESS,RA_SMPLRT_DIV,0x07)){
-//		if(App::mApp->mTicks->Timeout()){
-//			return;
-//		}
-//	}
-
 	WaitUntilFlagChangedOrTimeoutReturn(!i2cx->Write(ADDRESS,RA_CONFIG,0x00),0.003);
-//	App::mApp->mTicks->setTimeout(3);
-//	while(!i2cx->Write(ADDRESS,RA_CONFIG,0x00)){
-//		if(App::mApp->mTicks->Timeout()){
-//			return;
-//		}
-//	}
-
-
-	WaitUntilFlagChangedOrTimeoutReturn(!i2cx->Write(ADDRESS,RA_GYRO_CONFIG,0x18),0.003);
-//	App::mApp->mTicks->setTimeout(3);
-//	while(!i2cx->Write(ADDRESS,RA_GYRO_CONFIG,0x18)){
-//		if(App::mApp->mTicks->Timeout()){
-//			return;
-//		}
-//	}
-
-
-	WaitUntilFlagChangedOrTimeoutReturn(!i2cx->Write(ADDRESS,RA_ACCEL_CONFIG,0x18),0.003);
-//	App::mApp->mTicks->setTimeout(3);
-//	while(!i2cx->Write(ADDRESS,RA_ACCEL_CONFIG,0x18)){
-//		if(App::mApp->mTicks->Timeout()){
-//			return;
-//		}
-//	}
+	WaitUntilFlagChangedOrTimeoutReturn(!i2cx->Write(ADDRESS,RA_GYRO_CONFIG,Conf->_gyroConf),0.003);
+	WaitUntilFlagChangedOrTimeoutReturn(!i2cx->Write(ADDRESS,RA_ACCEL_CONFIG,Conf->_accConf),0.003);
 	return true;
 }
 
 bool MPU6050::Update(){
+
+	float AccScale;
+	float GyroScale;
+
+	switch(Conf->_accConf){
+		case MPU6050Configuration::AccConf2G:
+			AccScale = 0.00006103515625f;
+			break;
+		case MPU6050Configuration::AccConf4G:
+			AccScale = 0.0001220703125f;
+			break;
+		case MPU6050Configuration::AccConf8G:
+			AccScale = 0.000244140625f;
+			break;
+		case MPU6050Configuration::AccConf16G:
+			AccScale = 0.00048828125;
+			break;
+
+	}
+
+	switch(Conf->_gyroConf){
+		case MPU6050Configuration::GyroConf250:
+			GyroScale = 0.00763358778625954198473282442748f;
+			break;
+		case MPU6050Configuration::GyroConf500:
+			GyroScale = 0.01526717557251908396946564885496f;
+			break;
+		case MPU6050Configuration::GyroConf1000:
+			GyroScale = 0.03048780487804878048780487804878f;
+			break;
+		case MPU6050Configuration::GyroConf2000:
+			GyroScale = 0.06097560975609756097560975609756;
+			break;
+
+	}
 
 	uint8_t data[14];
 	int16_t temp;
@@ -109,7 +100,8 @@ bool MPU6050::Update(){
 		if(i >= 0 && i <= 5){
 			int j = i / 2;
 			temp = (data[i + 1] | (data[i] << 8));
-			RawAcc[j] = (float)temp * 0.0047884033203125f;
+			RawAcc[j] = (float)temp * AccScale;
+			printf("%d\r\n", temp);
 		}
 		else if(i >= 6 && i <= 7){
 			temp = (data[i + 1] | (data[i] << 8));
@@ -117,7 +109,7 @@ bool MPU6050::Update(){
 		}
 		else if(i >= 8 && i <= 13){
 			temp = data[i + 1] | (data[i] << 8);
-			RawOmega[(i - 8) / 2] = (float)temp * 0.06097560975609756097560975609756f;//0.03048780487804878048780487804878;//0.00763359f;// * 0.015267f;
+			RawOmega[(i - 8) / 2] = (float)temp * GyroScale;
 		}
 	}
 

@@ -52,35 +52,37 @@ void PrintInfoTask(Bundle* bundle){
 }
 
 void PrintOutputTask(Bundle* bundle){
-	mUART3->Print("Acc: %.2f %.2f %.2f\r\n", mMPU6050->getRawAcc()[0], mMPU6050->getRawAcc()[1], mMPU6050->getRawAcc()[2]);
+	mUART3->Print("Acc: %.2f %.2f %.2f\r\n", mAcc->getFilteredAcc()[0], mAcc->getFilteredAcc()[1], mAcc->getFilteredAcc()[2]);
 }
 
 void UpdateTask(Bundle* bundle){
 
-	printf("0x%x\r\n", mI2C2->Read(MPU6050::ADDRESS, MPU6050::RA_WHO_AM_I));
-//	if(!mMPU6050->Update()){
-//		mUART3->Print("Update failed.");
-//	}
-//	mUART3->Print("%d\r\n", mMPU6050->getIsValided());
+	if(!mMPU6050->Update()){
+		mUART3->Print("MPU6050 update failed.");
+	}
+	if(!mAcc->Update()){
+		mUART3->Print("Acc update failed.");
+	}
 }
 
 App::App(){
 	Vector3f AccPos, AccNeg, OmegaScale, OmegaOffset;
-	AccPos.setIdentity();
-	AccPos*=9.81;
-	AccNeg.setIdentity();
-	AccNeg*=-9.81;
-	OmegaScale.setIdentity();
+	AccPos << 1,1,1;
+	AccPos*=Inertia::Acceleration::Gravity;
+	AccNeg << 1,1,1;
+	AccNeg*=-Inertia::Acceleration::Gravity;
+	OmegaScale << 1,1,1;
 	OmegaOffset.setZero();
-	MPU6050Configuration MPU6050Conf1(mI2C2, AccPos, AccNeg, OmegaScale, OmegaOffset);
-//	mMPU6050 = new MPU6050(&MPU6050Conf1);
+	MPU6050Configuration MPU6050Conf1(mI2C2, MPU6050Configuration::AccConf16G, MPU6050Configuration::GyroConf2000, AccPos, AccNeg, OmegaScale, OmegaOffset);
+	mMPU6050 = new MPU6050(&MPU6050Conf1);
+	mAcc = new Acceleration(mMPU6050);
 
 	mLed1->Blink();
-	AttachTask(0.02, SendTask, "SendTask");
-	AttachTask(0.02, ReceiveTask, "ReceiveTask");
+//	AttachTask(0.02, SendTask, "SendTask");
+//	AttachTask(0.02, ReceiveTask, "ReceiveTask");
 	AttachTask(0.02, UpdateTask, "UpdateTask");
 //	AttachExecuteTask(mCommunicating3, 1, TestTask);
-//	AttachTask(1, PrintOutputTask, "PrintOutputTask");
+	AttachTask(1.0, PrintOutputTask, "PrintOutputTask");
 //	AttachTask(0.02, PrintReadTask, "PrintReadTask");
 }
 

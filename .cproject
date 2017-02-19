@@ -232,7 +232,7 @@
 					<sourceEntries>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="Drivers/STM32F4xx_HAL_Driver/Src"/>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="Init"/>
-						<entry excluding="User/AdaptiveKalman.cpp.bak|User/ADConverter.cpp|User/Buzzer.cpp|User/CAN.cpp|User/Compass.cpp|User/Controlling.cpp|User/Encoder.cpp|User/EncoderYaw.cpp|User/ExternalInterrupt.cpp|User/Fuzzy.cpp.bak|User/HMC5883L.cpp|User/InputCapture.cpp|User/Kalman.cpp|User/Led.cpp|User/Localization.cpp|User/MadgwickAHRS.cpp|User/MathAlgorithm.cpp.bak|User/MCP2515.cpp|User/MovingWindowAverageFilter.cpp|User/MPU6500.cpp|User/MPU9250.cpp.bak|User/nRF24L01.cpp|User/NRF905.cpp.bak|User/Omega.cpp|User/PhasesMonitoring.cpp.bak|User/Pid.cpp|User/PWM.cpp|User/PX4FLOW.cpp.bak|User/Quaternion.cpp|User/SE3.cpp.bak|User/Sonic.cpp|User/Sonic.cpp.bak|User/stm32f4xx_it.cpp|User/UKF.cpp.bak|User/URG_04LX.cpp.bak|User/SPI.cpp|User/Acceleration.cpp" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="Src"/>
+						<entry excluding="User/AdaptiveKalman.cpp.bak|User/ADConverter.cpp|User/Buzzer.cpp|User/CAN.cpp|User/Compass.cpp|User/Controlling.cpp|User/Encoder.cpp|User/EncoderYaw.cpp|User/ExternalInterrupt.cpp|User/Fuzzy.cpp.bak|User/HMC5883L.cpp|User/InputCapture.cpp|User/Kalman.cpp|User/Led.cpp|User/Localization.cpp|User/MadgwickAHRS.cpp|User/MathAlgorithm.cpp.bak|User/MCP2515.cpp|User/MPU6500.cpp|User/MPU9250.cpp.bak|User/nRF24L01.cpp|User/NRF905.cpp.bak|User/Omega.cpp|User/PhasesMonitoring.cpp.bak|User/Pid.cpp|User/PWM.cpp|User/PX4FLOW.cpp.bak|User/Quaternion.cpp|User/SE3.cpp.bak|User/Sonic.cpp|User/Sonic.cpp.bak|User/stm32f4xx_it.cpp|User/UKF.cpp.bak|User/URG_04LX.cpp.bak|User/SPI.cpp" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="Src"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -366,4 +366,5 @@
 			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
 		</scannerConfigBuildInfo>
 	</storageModule>
+	<storageModule moduleId="org.eclipse.cdt.make.core.buildtargets"/>
 </cproject>

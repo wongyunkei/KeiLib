@@ -1,19 +1,19 @@
 /*
- * MovingWindowAverageFilter.cpp
+ * MovingWindowFilters.cpp
  *
  *  Created on: 2015¦~3¤ë24¤é
  *      Author: YunKei
  */
 
-#include <MovingWindowAverageFilter.h>
+#include <MovingWindowFilters.h>
 #include <stdio.h>
 using namespace Math;
 
-MovingWindowAverageFilter::MovingWindowAverageFilter(int windowSize) : WindowSize(windowSize), bufferCount(0){
+MovingWindowFilters::MovingWindowFilters(int windowSize) : WindowSize(windowSize), bufferCount(0){
 	buffer = new float[windowSize]{};
 }
 
-void MovingWindowAverageFilter::Update(float value){
+void MovingWindowFilters::Update(float value){
 	if(bufferCount == WindowSize){
 		for(int i = 0; i < WindowSize - 1; i++){
 			buffer[i] = buffer[i + 1];
@@ -26,7 +26,7 @@ void MovingWindowAverageFilter::Update(float value){
 	bufferCount = (bufferCount == WindowSize) ? WindowSize : bufferCount + 1;
 }
 
-float MovingWindowAverageFilter::getAverage(){
+float MovingWindowFilters::getAverage(){
 	float sum = 0;
 	for(int i = 0; i < bufferCount; i++){
 		sum += buffer[i];
@@ -39,7 +39,7 @@ float MovingWindowAverageFilter::getAverage(){
 	}
 }
 
-float MovingWindowAverageFilter::getMedian(){
+float MovingWindowFilters::getMedian(){
 	float array[WindowSize];
 	bool index[WindowSize];
 	for(int i = 0; i < WindowSize; i++){
@@ -65,7 +65,7 @@ float MovingWindowAverageFilter::getMedian(){
 	return array[WindowSize/2+1];
 }
 
-void MovingWindowAverageFilter::Clear(){
+void MovingWindowFilters::Clear(){
 	delete buffer;
 	buffer = new float[WindowSize]{};
 	bufferCount = 0;

@@ -1,18 +1,18 @@
 /*
- * MovingWindowAverageFilter.h
+ * MovingWindowFilters.h
  *
  *  Created on: 2015¦~3¤ë24¤é
  *      Author: YunKei
  */
 
-#ifndef MOVINGWINDOWAVERAGEFILTER_H_
-#define MOVINGWINDOWAVERAGEFILTER_H_
+#ifndef MOVINGWINDOWFILTERS_H_
+#define MOVINGWINDOWFILTERS_H_
 
 namespace Math{
 
-	class MovingWindowAverageFilter{
+	class MovingWindowFilters{
 		public:
-			MovingWindowAverageFilter(int windowSize);
+			MovingWindowFilters(int windowSize);
 			void Update(float value);
 			float getAverage();
 			void Clear();

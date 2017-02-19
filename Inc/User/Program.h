@@ -32,6 +32,8 @@
 #include <AdditionalTools.h>
 #include <I2C.h>
 #include <MPU6050.h>
+#include <MovingWindowFilters.h>
+#include <Acceleration.h>
 #include <App.h>
 
 namespace System{
@@ -55,10 +57,26 @@ namespace Sensors{
 	class MPU6050;
 };
 
+namespace Utility{
+	class AdditionalTools;
+};
+
+
+namespace Math{
+	class MovingWindowFilters;
+};
+
+namespace Inertia{
+	class Acceleration;
+};
+
 using namespace System;
 using namespace Communication;
 using namespace Time;
 using namespace Sensors;
+using namespace Utility;
+using namespace Math;
+using namespace Inertia;
 using Eigen::Vector3f;
 using Eigen::Vector4f;
 using Eigen::Matrix3f;
@@ -91,6 +109,8 @@ extern Communicating* mCommunicating2;
 extern Communicating* mCommunicating3;
 
 extern MPU6050* mMPU6050;
+extern Acceleration* mAcc;
+//extern Omega* mOmega;
 
 #define 	SYSTEMCLOCK													168000000U
 
@@ -101,6 +121,8 @@ extern MPU6050* mMPU6050;
 #define		RUN()														mTask->Run(true)
 
 #define		s(str)														(char*)str
+
+#define		c(x)														AdditionalTools::printCount(x)
 
 #define		AttachTask													mTask->Attach
 

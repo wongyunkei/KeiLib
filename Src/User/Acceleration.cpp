@@ -14,37 +14,37 @@ float Acceleration::Gravity = 9.80665f;
 Acceleration::Acceleration(Sensors::MPU6050* mMPU6050) : isMPU6500(false), _mMPU6050(mMPU6050), isValided(false){
 	FilteredAcc.setZero();
 	for(int i = 0; i < 3; i++){
-		AccMovingWindowAverageFilter[i] = new MovingWindowAverageFilter(20);
+		AccMovingWindowFilters[i] = new MovingWindowFilters(20);
 	}
 	Update();
 }
 
-Acceleration::Acceleration(Sensors::MPU6500* mMPU6500) : isMPU6500(true), _mMPU6500(mMPU6500), isValided(false){
-	FilteredAcc.setZero();
-	for(int i = 0; i < 3; i++){
-		AccMovingWindowAverageFilter[i] = new MovingWindowAverageFilter(20);
-	}
-	Update();
-}
+//Acceleration::Acceleration(Sensors::MPU6500* mMPU6500) : isMPU6500(true), _mMPU6500(mMPU6500), isValided(false){
+//	FilteredAcc.setZero();
+//	for(int i = 0; i < 3; i++){
+//		AccMovingWindowFilters[i] = new MovingWindowFilters(20);
+//	}
+//	Update();
+//}
 
-void Acceleration::Update(){
+bool Acceleration::Update(){
 	if(isMPU6500){
-		if(_mMPU6500->getIsValided()){
-			Acc = _mMPU6500->getRawAcc();
-			for(int i = 0; i < 3; i++){
-				AccMovingWindowAverageFilter[i]->Update(Acc[i]);
-			}
-			isValided = true;
-		}
-		else{
-			isValided = false;
-		}
+//		if(_mMPU6500->getIsValided()){
+//			Acc = _mMPU6500->getRawAcc();
+//			for(int i = 0; i < 3; i++){
+//				AccMovingWindowFilters[i]->Update(Acc[i]);
+//			}
+//			isValided = true;
+//		}
+//		else{
+//			isValided = false;
+//		}
 	}
 	else{
 		if(_mMPU6050->getIsValided()){
 			Acc = _mMPU6050->getRawAcc();
 			for(int i = 0; i < 3; i++){
-				AccMovingWindowAverageFilter[i]->Update(Acc[i]);
+				AccMovingWindowFilters[i]->Update(Acc[i]);
 			}
 			isValided = true;
 		}
@@ -52,6 +52,7 @@ void Acceleration::Update(){
 			isValided = false;
 		}
 	}
+	return isValided;
 }
 
 bool Acceleration::getIsValided(){
@@ -64,7 +65,7 @@ Vector3f Acceleration::getAcc(){
 
 Vector3f Acceleration::getFilteredAcc(){
 	for(int i = 0; i < 3; i++){
-		FilteredAcc[i] = AccMovingWindowAverageFilter[i]->getAverage();
+		FilteredAcc[i] = AccMovingWindowFilters[i]->getAverage();
 	}
 	return FilteredAcc;
 }

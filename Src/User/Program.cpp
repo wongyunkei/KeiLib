@@ -32,6 +32,7 @@ Communicating* mCommunicating2 = 0;
 Communicating* mCommunicating3 = 0;
 
 MPU6050* mMPU6050;
+Acceleration* mAcc;
 
 void SystemResetTask(Bundle* bundle){
 	HAL_NVIC_SystemReset();

@@ -30,6 +30,7 @@ namespace Utility{
 			static MatrixXf getMatrix(int index, int rows, int cols);
 			static void printfBuffer(int index, int length);
 			static void printMatix(char* label, MatrixXf M,int rows, int cols);
+			static void printCount(int d);
 		private:
 	};
 };

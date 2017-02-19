@@ -8,25 +8,15 @@
 #ifndef ACCELERATION_H_
 #define ACCELERATION_H_
 
-#include <MPU6050.h>
-#include <MPU6500.h>
-#include <Kalman.h>
-#include <math.h>
-#include <MathTools.h>
-#include <MovingWindowAverageFilter.h>
-#include <Eigen/Eigen>
-using Eigen::Vector3f;
-using Eigen::Matrix3f;
-using namespace Math;
-
-namespace Math{
-	class Kalman;
-};
+#include <Program.h>
 
 namespace Sensors{
 	class MPU6050;
-	class MPU6500;
 };
+
+using namespace Math;
+using namespace Sensors;
+using Eigen::Vector3f;
 
 namespace Inertia{
 
@@ -34,9 +24,9 @@ namespace Inertia{
 
 		public:
 			static float Gravity;
-			Acceleration(Sensors::MPU6050* mMPU6050);
-			Acceleration(Sensors::MPU6500* mMPU6500);
-			void Update();
+			Acceleration(MPU6050* mMPU6050);
+//			Acceleration(Sensors::MPU6500* mMPU6500);
+			bool Update();
 			Vector3f getAcc();
 			Vector3f getAngle();
 			Vector3f getFilteredAcc();
@@ -46,11 +36,11 @@ namespace Inertia{
 
 		private:
 			Sensors::MPU6050* _mMPU6050;
-			Sensors::MPU6500* _mMPU6500;
+//			Sensors::MPU6500* _mMPU6500;
 			bool isValided;
 			Vector3f Acc;
 			Vector3f FilteredAcc;
-			MovingWindowAverageFilter* AccMovingWindowAverageFilter[3];
+			MovingWindowFilters* AccMovingWindowFilters[3];
 			bool isMPU6500;
 	};
 };

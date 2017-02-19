@@ -19,8 +19,22 @@ namespace Communication{
 namespace Sensors{
 	class MPU6050Configuration{
 		public:
-			MPU6050Configuration(I2C* i2c, Vector3f AccPos, Vector3f AccNeg, Vector3f OmegaScale, Vector3f OmegaOffset);
+			enum AccConf{
+				AccConf2G = 0x00,
+				AccConf4G = 0x08,
+				AccConf8G = 0x10,
+				AccConf16G = 0x18
+			};
+			enum GyroConf{
+				GyroConf250 = 0x00,
+				GyroConf500 = 0x08,
+				GyroConf1000 = 0x10,
+				GyroConf2000 = 0x18
+			};
+			MPU6050Configuration(I2C* i2c, AccConf accConf, GyroConf gyroConf, Vector3f AccPos, Vector3f AccNeg, Vector3f OmegaScale, Vector3f OmegaOffset);
 			I2C* _i2c;
+			AccConf _accConf;
+			GyroConf _gyroConf;
 			Vector3f _AccPos;
 			Vector3f _AccNeg;
 			Vector3f _OmegaScale;
